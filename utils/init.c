@@ -6,20 +6,11 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:31:58 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/05 12:08:27 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/05 16:33:54 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-void	init_table(t_table *table, t_philo *philos)
-{
-	table->dead_flag = 0;
-	table->philos = philos;
-	pthread_mutex_init(&table->write_lock, NULL);
-	pthread_mutex_init(&table->dead_lock, NULL);
-	pthread_mutex_init(&table->meal_lock, NULL);
-}
 
 void	init_philos(t_philo *philos, t_table *table, pthread_mutex_t *forks)
 {
@@ -59,6 +50,29 @@ void	init_forks(pthread_mutex_t *forks, int nb_philos)
 			printf("Error: Invalid init for forks\n");
 			return ;
 		}
+		i++;
+	}
+}
+
+void	init_table(t_table *table, t_philo *philos)
+{
+	table->dead_flag = 0;
+	table->philos = philos;
+	pthread_mutex_init(&table->write_lock, NULL);
+	pthread_mutex_init(&table->dead_lock, NULL);
+	pthread_mutex_init(&table->meal_lock, NULL);
+}
+
+void	init_thread(t_philo *philo)
+{
+	int	i;
+
+	i = 0;
+	while (i < philo[0].nb_philos)
+	{
+		if (pthread_create(&philo[i].thread, NULL, philo_routine,
+				&philo[i]) != 0);
+		return (printf("Error init threads\n"));
 		i++;
 	}
 }

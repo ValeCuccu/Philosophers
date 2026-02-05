@@ -6,17 +6,32 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:09:38 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/05 12:08:51 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/05 14:21:01 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+void	eat_routine(t_philo *philo)
+{
+	pthread_mutex_lock(philo->left_fork);
+	print_status(philo, "has taken left fork");
+	pthread_mutex_lock(philo->right_fork);
+	print_status(philo, "has taken right fork");
+	print_status(philo, "is eating");
+	pthread_mutex_lock(philo->meal_lock);
+	philo->last_meal = get_current_time();
+	philo->meals_eaten++;
+	pthread_mutex_unlock(philo->meal_lock);
+}
 
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		ft_usleep(1, philo);
 	if (philo->nb_philos == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);

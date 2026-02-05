@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:11:42 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/04 17:18:46 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/05 16:50:03 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_philo
 	size_t					time_to_die;
 	size_t					time_to_sleep;
 	size_t					start_time;
+	int						nb_meals_had_to_eat;
 	int						nb_philos;
 	int						time_to_eat;
 	int						*dead;
@@ -66,5 +67,10 @@ size_t				get_current_time(void);
 
 /* ROUTINE */
 void				*philo_routine(void *arg);
+
+/* MONITOR */
+int					check_death(t_philo *philo);
+void				print_status(t_philo *philo, char *str);
+void				ft_usleep(size_t milliseconds, t_philo *philo);
 
 #endif

@@ -9,7 +9,9 @@ UTILS_DIR   = utils
 SRC         = $(UTILS_DIR)/validate.c \
               $(SRC_DIR)/main.c \
 			  $(UTILS_DIR)/init.c  \
-			  $(UTILS_DIR)/time.c
+			  $(UTILS_DIR)/time.c \
+			  $(SRC_DIR)/routine.c \
+			  $(SRC_DIR)/monitor.c \
 
 # 2. Definiamo gli oggetti (mappa i file .c nella cartella obj)
 OBJ         = $(SRC:%.c=$(OBJ_DIR)/%.o)
