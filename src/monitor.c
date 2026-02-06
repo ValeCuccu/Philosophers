@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 12:15:32 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/05 17:07:09 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/06 15:42:39 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,19 @@ int	check_all_ate(t_philo *philos, t_table *table)
 	while (i < table->philos[0].nb_philos)
 	{
 		pthread_mutex_lock(&table->meal_lock);
-		if ()
+		if (philos[i].meals_eaten >= philos[0].nb_meals_had_to_eat)
+			finished_eating++;
+		pthread_mutex_unlock(&table->meal_lock);
+		i++;
 	}
+	if (finished_eating == &table[0].philos->nb_philos)
+	{
+		pthread_mutex_lock(&table->dead_flag);
+		table->dead_flag = 1;
+		pthread_mutex_unlock(&table->dead_flag);
+		rewturn (1);
+	}
+	return (0);
 }
 
 void	print_status(t_philo *philo, char *str)
@@ -60,5 +71,30 @@ void	ft_usleep(size_t milliseconds, t_philo *philo)
 		if (check_death(philo))
 			break ;
 		usleep(500);
+	}
+}
+
+void	monitor_rotine(t_philo *philos, t_table *table)
+{
+	int	i;
+
+	while(1)
+	{
+		if (check_all_ate(philos, table))
+			return ;
+		i = 0;
+		while (i < table->philos[0].nb_philos)
+		{
+			if (philosophers_dead(&philos[i], philos[i].time_to_die))
+			{
+				print_status(&philos[i], "died");
+				pthread_mutex_lock(&table->dead_lock);
+				table->dead_flag = 1;
+				pthread_mutex_unlock(&table->dead_lock);
+				return ;
+			}
+			i++;
+		}
+		usleep(1000);
 	}
 }

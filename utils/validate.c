@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:21:34 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/04 15:12:29 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/06 15:38:12 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,16 @@ long	ft_atol(char *s)
 		i++;
 	}
 	return (rest);
+}
+
+int	philosophers_dead(t_philo *philo, size_t time_to_die)
+{
+	pthread_mutex_lock(philo->meal_lock);
+	if ((get_current_time() - philo->last_meal) >= time_to_die)
+	{
+		pthread_mutex_unlock(philo->meal_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(philo->meal_lock);
+	return (0);
 }

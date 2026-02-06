@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:31:58 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/05 16:33:54 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/06 15:47:14 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,11 @@ void	init_thread(t_philo *philo)
 	while (i < philo[0].nb_philos)
 	{
 		if (pthread_create(&philo[i].thread, NULL, philo_routine,
-				&philo[i]) != 0);
-		return (printf("Error init threads\n"));
+				&philo[i]) != 0)
+		{
+			printf("Error init threads\n");
+			return ;
+		}
 		i++;
 	}
 }

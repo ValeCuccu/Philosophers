@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:11:42 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/05 16:50:03 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/06 15:49:22 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ typedef struct s_table
 
 /* UTILS */
 long				ft_atol(char *s);
+int					philosophers_dead(t_philo *philo, size_t time_td);
+int					check_death(t_philo *philo);
+void				print_status(t_philo *philo, char *str);
+int					check_all_ate(t_philo *philos, t_table *table);
+
 
 /* INIT */
 void				init_table(t_table *table, t_philo *philos);
@@ -69,8 +74,6 @@ size_t				get_current_time(void);
 void				*philo_routine(void *arg);
 
 /* MONITOR */
-int					check_death(t_philo *philo);
-void				print_status(t_philo *philo, char *str);
 void				ft_usleep(size_t milliseconds, t_philo *philo);
 
 #endif
