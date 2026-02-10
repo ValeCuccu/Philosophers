@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:11:42 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/06 15:49:22 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/10 11:55:08 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int					check_death(t_philo *philo);
 void				print_status(t_philo *philo, char *str);
 int					check_all_ate(t_philo *philos, t_table *table);
 
-
 /* INIT */
 void				init_table(t_table *table, t_philo *philos);
 void				init_philos(t_philo *philos, t_table *table,
@@ -72,6 +71,7 @@ size_t				get_current_time(void);
 
 /* ROUTINE */
 void				*philo_routine(void *arg);
+void				monitor_routine(t_philo *philos, t_table *table);
 
 /* MONITOR */
 void				ft_usleep(size_t milliseconds, t_philo *philo);

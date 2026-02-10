@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:09:38 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/05 14:21:01 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/10 16:38:05 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ void	eat_routine(t_philo *philo)
 	pthread_mutex_lock(philo->meal_lock);
 	philo->last_meal = get_current_time();
 	philo->meals_eaten++;
+	philo->eating = 1;
 	pthread_mutex_unlock(philo->meal_lock);
+	ft_usleep(philo->time_to_eat, philo);
+	philo->eating = 0;
+	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->left_fork);
 }
 
 void	*philo_routine(void *arg)

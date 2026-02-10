@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 12:15:32 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/06 15:42:39 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/10 14:42:41 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ int	check_all_ate(t_philo *philos, t_table *table)
 		pthread_mutex_unlock(&table->meal_lock);
 		i++;
 	}
-	if (finished_eating == &table[0].philos->nb_philos)
+	if (finished_eating == table[0].philos->nb_philos)
 	{
-		pthread_mutex_lock(&table->dead_flag);
+		pthread_mutex_lock(&table->dead_lock);
 		table->dead_flag = 1;
-		pthread_mutex_unlock(&table->dead_flag);
-		rewturn (1);
+		pthread_mutex_unlock(&table->dead_lock);
+		return (1);
 	}
 	return (0);
 }
@@ -55,7 +55,6 @@ void	print_status(t_philo *philo, char *str)
 
 	pthread_mutex_lock(philo->write_lock);
 	time = get_current_time() - philo->start_time;
-	/* se non muore nessuno stampo altrimenti nada */
 	if (!check_death(philo))
 		printf("%zu %d %s\n", time, philo->id, str);
 	pthread_mutex_unlock(philo->write_lock);
@@ -74,11 +73,11 @@ void	ft_usleep(size_t milliseconds, t_philo *philo)
 	}
 }
 
-void	monitor_rotine(t_philo *philos, t_table *table)
+void	monitor_routine(t_philo *philos, t_table *table)
 {
 	int	i;
 
-	while(1)
+	while (1)
 	{
 		if (check_all_ate(philos, table))
 			return ;

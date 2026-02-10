@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 15:31:58 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/06 15:47:14 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/10 14:52:42 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	init_philos(t_philo *philos, t_table *table, pthread_mutex_t *forks)
 
 	n = philos[0].nb_philos;
 	i = 0;
+	philos[i].start_time = get_current_time();
 	while (i < n)
 	{
 		philos[i].id = i + 1;
 		philos[i].nb_philos = n;
 		philos[i].time_to_die = philos[0].time_to_die;
 		philos[i].time_to_sleep = philos[0].time_to_sleep;
+		philos[i].time_to_eat = philos[0].time_to_eat;
 		philos[i].eating = 0;
 		philos[i].meals_eaten = 0;
 		philos[i].last_meal = get_current_time();
