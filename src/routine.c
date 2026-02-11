@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 17:09:38 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/10 16:38:05 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/11 15:45:10 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	eat_routine(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	print_status(philo, "has taken left fork");
+	print_status(philo, "has taken a fork");
 	pthread_mutex_lock(philo->right_fork);
-	print_status(philo, "has taken right fork");
+	print_status(philo, "has taken a fork");
 	print_status(philo, "is eating");
 	pthread_mutex_lock(philo->meal_lock);
 	philo->last_meal = get_current_time();
@@ -51,6 +51,7 @@ void	*philo_routine(void *arg)
 		print_status(philo, "is sleeping");
 		ft_usleep(philo->time_to_sleep, philo);
 		print_status(philo, "is_thinking");
+		ft_usleep(10, philo);
 	}
 	return (NULL);
 }
