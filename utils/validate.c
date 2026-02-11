@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:21:34 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/10 11:46:38 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/11 17:30:21 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,9 @@ long	ft_atol(char *s)
 	if (s[i] == '+')
 		i++;
 	else if (s[i] == '-')
-		return (printf("Error: only positive number accepted\n"), -1);
+		return (1);
 	while (s[i])
 	{
-		if ((s[i] >= 'a' && s[i] <= 'z') || (s[i] >= 'A' && s[i] <= 'Z'))
-			return (printf("Error: only numeric argument accepted\n"), -1);
 		rest = (rest * 10) + (s[i] - '0');
 		i++;
 	}
@@ -44,5 +42,23 @@ int	philosophers_dead(t_philo *philo, size_t time_to_die)
 		return (1);
 	}
 	pthread_mutex_unlock(philo->meal_lock);
+	return (0);
+}
+
+int	check_nb(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '+')
+		i++;
+	if (!str[i])
+		return (1);
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (1);
+		i++;
+	}
 	return (0);
 }

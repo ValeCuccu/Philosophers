@@ -1,126 +1,107 @@
-## ⚡ Quick Start: Installazione
+# Philosophers
 
-Copia e incolla questo blocco nel terminale per scaricare e compilare il progetto immediatamente:
+*This project has been created as part of the 42 curriculum by VACUCCU.*
+
+## Description
+
+The **Philosophers** project is a simulation of the classic "Dining Philosophers" problem, originally formulated by Edsger Dijkstra. It is a fundamental exercise in concurrent programming, synchronization, and resource sharing.
+
+### Goal
+
+The primary objective of this project is to learn how to manipulate **threads** and **mutexes**. The challenge lies in managing shared resources (forks) among concurrent threads (philosophers) while avoiding common concurrency issues such as:
+
+* **Data Races:** Concurrent access to shared memory without protection.
+* **Deadlocks:** A state where threads are blocked forever, waiting for each other.
+* **Starvation:** A state where a thread is perpetually denied access to resources.
+
+### Overview
+
+In this simulation:
+
+* Several philosophers sit at a round table.
+* There is a fork between each pair of philosophers.
+* A philosopher needs **two forks** to eat.
+* The simulation stops if a philosopher dies of starvation.
+* Each philosopher is a thread, and each fork is protected by a mutex.
+
+## Instructions
+
+### Compilation
+
+To compile the project, clone the repository and run `make` at the root of the directory:
 
 ```bash
-git clone <INSERISCI_QUI_URL_DELLA_TUA_REPO> philosophers
-cd philosophers
+git clone <repository_url>
+cd philo
 make
 
-Comandi per l'Uso
-La sintassi del programma è la seguente:
+```
 
-Bash
-./philo [num_filosofi] [time_to_die] [time_to_eat] [time_to_sleep] [opzionale: num_pasti]
-num_filosofi: Numero di filosofi e di forchette.
+This will generate the executable file named `philo`.
 
-time_to_die: Millisecondi max senza mangiare prima di morire.
+### Execution
 
-time_to_eat: Millisecondi necessari per mangiare.
+The program takes the following arguments:
 
-time_to_sleep: Millisecondi passati a dormire.
+```bash
+./philo number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 
-num_pasti: (Opzionale) Se tutti mangiano almeno 'N' volte, il programma termina.
+```
 
-🧪 Scenari di Test & Cosa Aspettarsi
-Ecco i test fondamentali da eseguire per la correzione.
+#### Arguments Reference:
 
-1️⃣ Test: Il caso della Morte
-Un solo filosofo. Prende una forchetta, ma non ne ha una seconda.
+| Argument | Description |
+| --- | --- |
+| `number_of_philosophers` | The number of philosophers and also the number of forks. |
+| `time_to_die` | (in ms) If a philosopher doesn't start eating `time_to_die` ms after the beginning of their last meal (or the start of the simulation), they die. |
+| `time_to_eat` | (in ms) The time it takes for a philosopher to eat. During this time, they will hold two forks. |
+| `time_to_sleep` | (in ms) The time a philosopher will spend sleeping. |
+| `[number_of_times...]` | (Optional) If all philosophers have eaten at least this many times, the simulation stops. If not specified, the simulation stops only when a philosopher dies. |
 
-Bash
-./philo 1 800 200 200
-Cosa aspettarsi:
+### Usage Examples
 
-Il filosofo stampa has taken a fork.
+**Standard simulation (infinite until death):**
 
-Passano 800ms.
-
-Il filosofo muore (died).
-
-Il programma termina e restituisce il prompt.
-
-2️⃣ Test: Sopravvivenza Infinita
-Scenario standard. I tempi sono bilanciati.
-
-Bash
+```bash
 ./philo 5 800 200 200
-Cosa aspettarsi:
 
-Nessuno deve morire.
+```
 
-La simulazione continua all'infinito finché non premi CTRL+C.
+*5 philosophers. No one should die because 200 (eat) + 200 (sleep) < 800 (die).*
 
-I messaggi scorrono fluidi senza blocchi.
+**Simulation with meal limit:**
 
-3️⃣ Test: Stop Controllato (Sazietà)
-Stesso scenario, ma il programma deve fermarsi da solo dopo 7 pasti.
-
-Bash
+```bash
 ./philo 5 800 200 200 7
-Cosa aspettarsi:
 
-Nessuno muore.
+```
 
-Appena l'ultimo filosofo finisce il suo 7° pasto, il programma si ferma immediatamente.
+*The simulation stops when all philosophers have eaten at least 7 times.*
 
-4️⃣ Test: Stress Test (200 Filosofi)
-Carico pesante per la CPU.
+**Simulation where a philosopher should die:**
 
-Bash
-./philo 200 800 200 200
-Cosa aspettarsi:
+```bash
+./philo 4 310 200 100
 
-Il programma non deve crashare (Segfault).
+```
 
-Nessuno deve morire (nonostante il numero elevato di thread).
+*A philosopher will likely die because the cycle (eat+sleep) is close to the death timer.*
 
-📚 I Concetti in Breve
-Prima di scendere nei dettagli, ecco le basi teoriche del progetto:
+## Resources
 
-Thread: Ogni filosofo è un thread, ovvero un'unità di esecuzione che lavora in parallelo agli altri.
+### References
 
-Mutex (Mutual Exclusion): Le forchette sono risorse condivise. Un mutex è come una chiave: se un filosofo prende la forchetta (lock), nessun altro può toccarla finché non viene rilasciata (unlock).
+* **The Dining Philosophers Problem:** [Wikipedia Article](https://en.wikipedia.org/wiki/Dining_philosophers_problem)
+* **POSIX Threads (pthreads):** [Official Man Pages](https://man7.org/linux/man-pages/man7/pthreads.7.html)
+* **Mutexes in C:** [GeeksforGeeks Guide](https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/)
+* **Unix Threads in C:** [Youtube Playlist by CodeVault](https://www.google.com/search?q=https://www.youtube.com/watch%3Fv%3Dd9s_d28yJq0%26list%3DPLfqABt5AS4FmuQf70psXrsMLEDQXNkLq2)
 
-Data Race: Errore che avviene quando due thread scrivono sulla stessa variabile contemporaneamente. Qui prevenuto proteggendo tutto con mutex.
+### AI Usage
 
-⚙️ Logic Flow: Come lavora questo programma
-Questa sezione spiega l'architettura interna e le soluzioni adottate per risolvere i problemi classici di concorrenza.
+AI tools (specifically ChatGPT/Gemini) were used in the development of this project for the following tasks:
 
-1. Inizializzazione e Risorse
-Il main prepara la tavola:
+1. **Log Analysis:** AI was used to parse lengthy simulation logs to verify that timestamps were accurate and to confirm that no philosopher skipped a meal or died prematurely.
+2. **Debugging Concurrency:** AI helped explain edge cases regarding `usleep` precision and how small CPU delays can affect the "Time to die" condition.
+3. **Concept Clarification:** AI was used to better understand the difference between race conditions and deadlocks in the context of C mutexes.
 
-Crea un array di pthread_mutex_t per le forchette.
-
-Inizializza le strutture dati per ogni filosofo.
-
-Lancia i thread.
-
-2. La Routine del Filosofo (Il Cuore) 🫀
-Ogni filosofo esegue un loop infinito (philo_routine) composto da tre fasi:
-
-A. Thinking (Pensare) 🧠
-Appena sveglio, il filosofo pensa.
-
-Fairness Patch: Se il numero di filosofi è dispari, qui viene introdotta una micro-pausa (usleep).
-
-Perché? Senza questa pausa, i filosofi più veloci ruberebbero costantemente le forchette ai vicini, facendoli morire di fame (Starvation).
-
-B. Eating (Mangiare) 🍝
-Il filosofo tenta di prendere le forchette.
-
-Soluzione Deadlock: Per evitare lo stallo (tutti prendono la sinistra e aspettano la destra all'infinito), è stato implementato un ordine gerarchico.
-
-Regola: Si prende SEMPRE prima la forchetta con l'ID più basso, poi quella con l'ID più alto.
-
-Una volta mangiato, aggiorna il timestamp last_meal (protetto da mutex).
-
-C. Sleeping (Dormire) 😴
-Rilascia le forchette e dorme per il tempo stabilito.
-
-3. Il Monitor (L'Occhio che tutto vede) 👁️
-Un thread separato gira in background controllando costantemente:
-
-Morte: Se (Tempo Corrente - Ultimo Pasto) > Time To Die -> Stampa "died" e ferma tutto.
-
-Pasti: Se tutti i filosofi hanno raggiunto il numero di pasti target -> Ferma tutto.
+*Note: The core logic, thread management, and mutex implementation were written manually to ensure a deep understanding of the curriculum requirements.*

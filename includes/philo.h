@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 19:11:42 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/10 11:55:08 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/11 16:24:31 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int					philosophers_dead(t_philo *philo, size_t time_td);
 int					check_death(t_philo *philo);
 void				print_status(t_philo *philo, char *str);
 int					check_all_ate(t_philo *philos, t_table *table);
+int					check_nb(char *str);
 
 /* INIT */
 void				init_table(t_table *table, t_philo *philos);

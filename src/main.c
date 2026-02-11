@@ -6,7 +6,7 @@
 /*   By: vacuccu <vacuccu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 12:35:01 by vacuccu           #+#    #+#             */
-/*   Updated: 2026/02/11 15:17:08 by vacuccu          ###   ########.fr       */
+/*   Updated: 2026/02/11 17:34:24 by vacuccu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,18 @@
 
 static int	check_arg(int ac, char **av, t_philo *p)
 {
+	int	i;
+
 	if (ac < 5 || ac > 6)
 		return (printf("Error: Wrong argument count\n"), 0);
+	i = 1;
+	while (i < ac)
+	{
+		if (check_nb(av[i]))
+			return (
+				printf("Error: Arguments must bepositive numbers only\n"), 0);
+		i++;
+	}
 	p->nb_philos = (int)ft_atol(av[1]);
 	p->time_to_die = ft_atol(av[2]);
 	p->time_to_eat = ft_atol(av[3]);
@@ -24,8 +34,8 @@ static int	check_arg(int ac, char **av, t_philo *p)
 		p->nb_meals_had_to_eat = ft_atol(av[5]);
 	else
 		p->nb_meals_had_to_eat = -1;
-	if (p->nb_philos > 200 || p->time_to_die < 0 || p->time_to_eat < 0
-		|| p->time_to_sleep < 0 || p->nb_philos <= 0)
+	if (p->nb_philos > 200 || p->time_to_die <= 0 || p->time_to_eat <= 0
+		|| p->time_to_sleep <= 0 || p->nb_philos <= 0)
 		return (printf("Error: Invalid arguments\n"), 0);
 	return (1);
 }
